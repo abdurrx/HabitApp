@@ -34,11 +34,7 @@ class NotificationWorker(ctx: Context, params: WorkerParameters) : Worker(ctx, p
             val intent = Intent(applicationContext, DetailHabitActivity::class.java).putExtra(HABIT_ID, habitId)
             val pendingIntent = TaskStackBuilder.create(applicationContext).run {
                 addNextIntentWithParentStack(intent)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) { // Notification on Android 13
-                    getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE)
-                } else {
-                    getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
-                }
+                getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
             }
 
             val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
